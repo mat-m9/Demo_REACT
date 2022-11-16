@@ -41,7 +41,7 @@ export class Buses extends Component {
     }
 
 
-    peticionGet = () => {
+    Get = () => {
         axios.get(url).then(response => {
             this.setState({ data: response.data });
         }).catch(error => {
@@ -49,27 +49,27 @@ export class Buses extends Component {
         })
     }
 
-    peticionPost = async () => {
+    Post = async () => {
         delete this.state.form.IDBus;
         await axios.post(url, this.state.form).then(response => {
             this.modalInsertar();
-            this.peticionGet();
+            this.Get();
         }).catch(error => {
             console.log(error.message);
         })
     }
 
-    peticionPut = () => {
+    Put = () => {
         axios.put(url + this.state.form.IDBus, this.state.form).then(response => {
             this.modalInsertar();
-            this.peticionGet();
+            this.Get();
         })
     }
 
-    peticionDelete = () => {
+    Delete = () => {
         axios.delete(url + this.state.form.IDBus).then(response => {
             this.setState({ modalEliminar: false });
-            this.peticionGet();
+            this.Get();
         })
     }
 
@@ -111,7 +111,7 @@ export class Buses extends Component {
     }
 
     componentDidMount() {
-        this.peticionGet();
+        this.Get();
     }
 
     render() {
@@ -185,9 +185,9 @@ export class Buses extends Component {
 
                     <ModalFooter>
                         {this.state.tipoModal === 'insertar' ?
-                            <button className="btn btn-success" onClick={() => this.peticionPost()}>
+                            <button className="btn btn-success" onClick={() => this.Post()}>
                                 Insertar
-                            </button> : <button className="btn btn-primary" onClick={() => this.peticionPut()}>
+                            </button> : <button className="btn btn-primary" onClick={() => this.Put()}>
                                 Actualizar
                             </button>
                         }
@@ -201,7 +201,7 @@ export class Buses extends Component {
                         Estás seguro que deseas eliminar este Bus {form && form.NombreConductor}
                     </ModalBody>
                     <ModalFooter>
-                        <button className="btn btn-danger" onClick={() => this.peticionDelete()}>Sí</button>
+                        <button className="btn btn-danger" onClick={() => this.Delete()}>Sí</button>
                         <button className="btn btn-secundary" onClick={() => this.setState({ modalEliminar: false })}>No</button>
                     </ModalFooter>
                 </Modal>

@@ -22,7 +22,7 @@ export class Rutas extends Component {
         }
     }
 
-    peticionGet = () => {
+    Get = () => {
         axios.get(url).then(response => {
             this.setState({ data: response.data });
         }).catch(error => {
@@ -30,27 +30,27 @@ export class Rutas extends Component {
         })
     }
 
-    peticionPost = async () => {
+    Post = async () => {
         delete this.state.form.IDRuta;
         await axios.post(url, this.state.form).then(response => {
             this.modalInsertar();
-            this.peticionGet();
+            this.Get();
         }).catch(error => {
             console.log(error.message);
         })
     }
 
-    peticionPut = () => {
+    Put = () => {
         axios.put(url + this.state.form.IDRuta, this.state.form).then(response => {
             this.modalInsertar();
-            this.peticionGet();
+            this.Get();
         })
     }
 
-    peticionDelete = () => {
+    Delete = () => {
         axios.delete(url + this.state.form.IDRuta).then(response => {
             this.setState({ modalEliminar: false });
-            this.peticionGet();
+            this.Get();
         })
     }
 
@@ -58,7 +58,7 @@ export class Rutas extends Component {
         this.setState({ modalInsertar: !this.state.modalInsertar });
     }
 
-    seleccionarEmpresa = (Rutas) => {
+    seleccionarRuta = (Rutas) => {
         this.setState({
             tipoModal: 'actualizar',
             form: {
@@ -81,7 +81,7 @@ export class Rutas extends Component {
     }
 
     componentDidMount() {
-        this.peticionGet();
+        this.Get();
     }
 
     render() {
@@ -106,9 +106,9 @@ export class Rutas extends Component {
                                     <td>{Rutas.IDRuta}</td>
                                     <td>{Rutas.DescRuta}</td>
                                     <td>
-                                        <button className="btn btn-primary" onClick={() => { this.seleccionarEmpresa(Rutas); this.modalInsertar() }}><FontAwesomeIcon icon={faEdit} /></button>
+                                        <button className="btn btn-primary" onClick={() => { this.seleccionarRuta(Rutas); this.modalInsertar() }}><FontAwesomeIcon icon={faEdit} /></button>
                                         {"   "}
-                                        <button className="btn btn-danger" onClick={() => { this.seleccionarEmpresa(Rutas); this.setState({ modalEliminar: true }) }}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                                        <button className="btn btn-danger" onClick={() => { this.seleccionarRuta(Rutas); this.setState({ modalEliminar: true }) }}><FontAwesomeIcon icon={faTrashAlt} /></button>
                                     </td>
                                 </tr>
                             )
@@ -133,9 +133,9 @@ export class Rutas extends Component {
 
                     <ModalFooter>
                         {this.state.tipoModal == 'insertar' ?
-                            <button className="btn btn-success" onClick={() => this.peticionPost()}>
+                            <button className="btn btn-success" onClick={() => this.Post()}>
                                 Insertar
-                            </button> : <button className="btn btn-primary" onClick={() => this.peticionPut()}>
+                            </button> : <button className="btn btn-primary" onClick={() => this.Put()}>
                                 Actualizar
                             </button>
                         }
@@ -149,7 +149,7 @@ export class Rutas extends Component {
                         Estás seguro que deseas eliminar esta Ruta {form && form.DescRuta}
                     </ModalBody>
                     <ModalFooter>
-                        <button className="btn btn-danger" onClick={() => this.peticionDelete()}>Sí</button>
+                        <button className="btn btn-danger" onClick={() => this.Delete()}>Sí</button>
                         <button className="btn btn-secundary" onClick={() => this.setState({ modalEliminar: false })}>No</button>
                     </ModalFooter>
                 </Modal>

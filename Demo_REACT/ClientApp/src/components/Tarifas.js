@@ -23,7 +23,7 @@ export class Tarifas extends Component {
         }
     }
 
-    peticionGet = () => {
+    Get = () => {
         axios.get(url).then(response => {
             this.setState({ data: response.data });
         }).catch(error => {
@@ -31,27 +31,27 @@ export class Tarifas extends Component {
         })
     }
 
-    peticionPost = async () => {
+    Post = async () => {
         delete this.state.form.IDTarifa;
         await axios.post(url, this.state.form).then(response => {
             this.modalInsertar();
-            this.peticionGet();
+            this.Get();
         }).catch(error => {
             console.log(error.message);
         })
     }
 
-    peticionPut = () => {
+    Put = () => {
         axios.put(url + this.state.form.IDTarifa, this.state.form).then(response => {
             this.modalInsertar();
-            this.peticionGet();
+            this.Get();
         })
     }
 
-    peticionDelete = () => {
+    Delete = () => {
         axios.delete(url + this.state.form.IDTarifa).then(response => {
             this.setState({ modalEliminar: false });
-            this.peticionGet();
+            this.Get();
         })
     }
 
@@ -59,7 +59,7 @@ export class Tarifas extends Component {
         this.setState({ modalInsertar: !this.state.modalInsertar });
     }
 
-    seleccionarEmpresa = (Tarifas) => {
+    seleccionarTarifa = (Tarifas) => {
         this.setState({
             tipoModal: 'actualizar',
             form: {
@@ -82,7 +82,7 @@ export class Tarifas extends Component {
     }
 
     componentDidMount() {
-        this.peticionGet();
+        this.Get();
     }
 
     render() {
@@ -109,9 +109,9 @@ export class Tarifas extends Component {
                                     <td>{Tarifas.DescTar}</td>
                                     <td>${Tarifas.Valor}</td>
                                     <td>
-                                        <button className="btn btn-primary" onClick={() => { this.seleccionarEmpresa(Tarifas); this.modalInsertar() }}><FontAwesomeIcon icon={faEdit} /></button>
+                                        <button className="btn btn-primary" onClick={() => { this.seleccionarTarifa(Tarifas); this.modalInsertar() }}><FontAwesomeIcon icon={faEdit} /></button>
                                         {"   "}
-                                        <button className="btn btn-danger" onClick={() => { this.seleccionarEmpresa(Tarifas); this.setState({ modalEliminar: true }) }}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                                        <button className="btn btn-danger" onClick={() => { this.seleccionarTarifa(Tarifas); this.setState({ modalEliminar: true }) }}><FontAwesomeIcon icon={faTrashAlt} /></button>
                                     </td>
                                 </tr>
                             )
@@ -139,9 +139,9 @@ export class Tarifas extends Component {
 
                     <ModalFooter>
                         {this.state.tipoModal == 'insertar' ?
-                            <button className="btn btn-success" onClick={() => this.peticionPost()}>
+                            <button className="btn btn-success" onClick={() => this.Post()}>
                                 Insertar
-                            </button> : <button className="btn btn-primary" onClick={() => this.peticionPut()}>
+                            </button> : <button className="btn btn-primary" onClick={() => this.Put()}>
                                 Actualizar
                             </button>
                         }
@@ -155,7 +155,7 @@ export class Tarifas extends Component {
                         Estás seguro que deseas eliminar esta Tarifa {form && form.DescTar}
                     </ModalBody>
                     <ModalFooter>
-                        <button className="btn btn-danger" onClick={() => this.peticionDelete()}>Sí</button>
+                        <button className="btn btn-danger" onClick={() => this.Delete()}>Sí</button>
                         <button className="btn btn-secundary" onClick={() => this.setState({ modalEliminar: false })}>No</button>
                     </ModalFooter>
                 </Modal>
